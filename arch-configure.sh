@@ -18,8 +18,8 @@ sed -i "s/localhost/localhost $computername/g" /etc/hosts
 echo "Set the root password"
 passwd
 
-echo "Install zshell"
-pacman -S install zsh
+echo "Install command line tools"
+pacman -S zsh git vim
 
 echo "Enter user name, followed by [ENTER]:"
 read username
