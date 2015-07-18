@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo "Setting pacman mirror"
+echo "Set up mirror list"
 mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup
-echo 'Server = http://mirror.umd.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+curl -O https://raw.githubusercontent.com/Gen2ly/armrr/master/armrr
+chmod +x armrr
+./armrr US
 
 echo "Installing Arch"
 pacstrap -i /mnt base base-devel
