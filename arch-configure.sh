@@ -18,7 +18,7 @@ sed -i "s/localhost/localhost $computername/g" /etc/hosts
 echo "Set the root password"
 passwd
 
-echo "Install command line tools"
+echo "Installing command line tools"
 pacman -S zsh git vim
 
 echo "Enter user name, followed by [ENTER]:"
@@ -27,6 +27,10 @@ useradd -m -g users -G wheel,storage,power -s /bin/zsh $username
 
 echo "Set user password"
 passwd $username
+
+echo "Installing other packages"
+pacman -S slim fluxbox
+systemctl enable slim.service
 
 echo "Installing bootloader (rEFInd)"
 pacman -S refind-efi
