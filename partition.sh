@@ -25,6 +25,7 @@ lvcreate -l 50%FREE lvm -n arch
 mkfs.ext4 /dev/lvm/arch
 lvcreate -l 100%FREE lvm -n home
 mkfs.ext4 /dev/lvm/home
+lvdisplay
 
 sleep 2
 
