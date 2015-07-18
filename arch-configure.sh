@@ -32,7 +32,8 @@ echo "Installing bootloader (rEFInd)"
 pacman -S refind-efi
 refind-install
 
-echo "Preparing boot image"
+echo "Generating boot file"
+sed -i "/^HOOKS=/ s/block filesystems/block lvm2 filesystems/g" /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 echo "Configuration complete! Exiting..."
