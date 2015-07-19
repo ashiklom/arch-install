@@ -22,7 +22,7 @@ echo "Set the root password"
 passwd
 
 echo "Setting sudo permissions for 'wheel' group"
-sed -i "0,/# %wheel/{s/# %wheel/%wheel/}"
+sed -i "0,/# %wheel/{s/# %wheel/%wheel/}" /etc/sudoers
 
 echo "Install command line tools"
 pacman -S --noconfirm zsh vim wget
@@ -38,7 +38,7 @@ echo "Setting up GUI"
 pacman -S --noconfirm xorg-server xorg-init fluxbox virtualbox-guest-utils rxvt-unicode
 echo "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
 cp xinitrc /home/ashiklom/.xinitrc
-fluxbox-generate-menu
+fluxbox-generate_menu
 
 echo "Installing bootloader (grub)"
 pacman -S --noconfirm grub
