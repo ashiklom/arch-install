@@ -1,15 +1,14 @@
 #!/bin/sh
 # Partition disk using parted
-echo "Enter disk name, followed by [ENTER]:"
-read disk
+disk=$(1:-"/dev/sda")
 
-parted -s /dev/sda mklabel msdos
-parted -s /dev/sda mkpart primary ext4 1MiB 100%
-parted -s /dev/sda set 1 boot on
+parted -s $disk mklabel msdos
+parted -s $disk mkpart primary ext4 1MiB 100%
+parted -s $disk set 1 boot on
 
 sleep 2
 
-mkfs.ext4 /dev/sda1
+mkfs.ext4 "$disk""1"
 
 # Mount partitions
 echo "Mounting partitions"
