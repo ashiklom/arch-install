@@ -1,33 +1,34 @@
 #!/bin/bash
 # Post-installation configuration of Arch
 
-username=ashiklom
+username=$(1:-"ashiklom")
 
 # Other important packages
-pacman -S --noconfirm git openssh \
+sudo -u $username pacman -S --noconfirm git openssh \
     ruby r gcc-fortran \
-    python python2 python-pip
+    python python2 python-pip \
+    ttf-ubuntu-font-family
 
 echo "Installing yaourt for AUR packages"
 mkdir /home/$username/builds & cd /home/$username/builds
 aur='https://aur.archlinux.org/packages'
-wget $aur/pa/package-query/package-query.tar.gz
+wget "$aur/pa/package-query/package-query.tar.gz"
 tar xvf package-query.tar.gz
 cd package-query
 makepkg -s --asroot
 packagename=`find . -name *.pkg.tar.xz`
-pacman -U $packagename
+sudo -u $username pacman -U $packagename
 cd ..
 wget $aur/ya/yaourt/yaourt.tar.gz
 tar xvf yaourt.tar.gz
 cd yaourt
 makepkg -s --asroot
 packagename=`find . -name *.pkg.tar.xz`
-pacman -U $packagename
-cd
+sudo -u $username pacman -U $packagename
+cd /home/$username
 
 echo "Installing AUR packages"
-yaourt -S neovim --noconfirm
+yaourt -S neovim-git --noconfirm
 
 echo "Downloading user files"
 git clone https://github.com/ashiklom/my_vim ~/.vim

@@ -35,14 +35,15 @@ echo "Set user password"
 passwd $username
 
 echo "Setting up GUI"
-pacman -S --noconfirm xorg-server xorg-init fluxbox virtualbox-guest-utils rxvt-unicode
-echo "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
-cp xinitrc /home/ashiklom/.xinitrc
+pacman -S --noconfirm xorg-server xorg-xinit fluxbox virtualbox-guest-utils rxvt-unicode
+echo -e "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
+mv /home/xinitrc /home/$username/.xinitrc
 fluxbox-generate_menu
 
 echo "Installing bootloader (grub)"
 pacman -S --noconfirm grub
-grub-install --recheck /dev/sda
+grub-install --target=i386-pc --recheck --debug /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "Generating boot file"
 mkinitcpio -p linux
