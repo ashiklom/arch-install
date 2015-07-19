@@ -35,10 +35,12 @@ echo "Set user password"
 passwd $username
 
 echo "Setting up GUI"
-pacman -S --noconfirm xorg-server xorg-xinit fluxbox virtualbox-guest-utils rxvt-unicode
+pacman -S --noconfirm xorg-server xorg-xinit \
+    xorg-xset xorg-xrdb xorg-xinput i3 dmenu \
+    virtualbox-guest-utils rxvt-unicode
 echo -e "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
 mv /home/xinitrc /home/$username/.xinitrc
-fluxbox-generate_menu
+xset r rate 130 50  # Keyboard repeat rate
 
 echo "Installing bootloader (grub)"
 pacman -S --noconfirm grub

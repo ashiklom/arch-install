@@ -5,9 +5,9 @@ username=$(1:-"ashiklom")
 
 # Other important packages
 sudo -u $username pacman -S --noconfirm git openssh \
-    ruby r gcc-fortran \
+    ruby r gcc-fortran tmux \
     python python2 python-pip \
-    ttf-ubuntu-font-family
+    ttf-ubuntu-font-familya ttf-inconsolata
 
 echo "Installing yaourt for AUR packages"
 mkdir /home/$username/builds & cd /home/$username/builds
@@ -30,11 +30,13 @@ cd /home/$username
 echo "Installing AUR packages"
 yaourt -S neovim-git --noconfirm
 
-echo "Downloading user files"
+echo "Downloading and setting up user files"
 git clone https://github.com/ashiklom/my_vim ~/.vim
 ln -s ~/.vim ~/.nvim
 ln -s ~/.vim/vimrc ~/.vimrc
 ln -s ~/.vimrc ~/.nvimrc
+vim +PlugInstall +qall now
 git clone https://github.com/ashiklom/dotfiles
 ln -s ~/dotfiles/fluxbox ~/.fluxbox
 ln -s ~/dotfiles/Xresources/main ~/.Xresources
+xrdb -I$HOME ~/.Xresources
