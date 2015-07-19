@@ -5,9 +5,11 @@ read disk
 
 parted -s /dev/sda mklabel msdos
 parted -s /dev/sda mkpart primary ext4 1MiB 100%
-parted -s set 1 boot on
+parted -s /dev/sda set 1 boot on
 
 sleep 2
+
+mkfs.ext4 /dev/sda1
 
 # Mount partitions
 echo "Mounting partitions"
