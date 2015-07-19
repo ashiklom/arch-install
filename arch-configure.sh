@@ -40,12 +40,11 @@ echo "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
 cp xinitrc /home/ashiklom/.xinitrc
 fluxbox-generate-menu
 
-echo "Installing bootloader (rEFInd)"
-pacman -S --noconfirm refind-efi
-refind-install
+echo "Installing bootloader (grub)"
+pacman -S --noconfirm grub
+grub-install --recheck /dev/sda
 
 echo "Generating boot file"
-sed -i "/^HOOKS=/ s/block filesystems/block lvm2 filesystems/g" /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 echo "Configuration complete! Exiting..."
