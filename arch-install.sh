@@ -7,7 +7,8 @@ chmod +x armrr
 ./armrr US
 
 echo "Installing Arch"
-pacstrap -i /mnt base base-devel
+# NOTE: The `-i` flag makes this interactive.
+pacstrap /mnt base base-devel
 
 sleep 5
 
@@ -15,9 +16,10 @@ echo "Generating fstab file"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 echo "Running arch configuration script..."
-cp arch-configure.sh /mnt/home/arch-configure.sh
-chmod +x /mnt/home/arch-configure.sh
+cp arch-configure.sh post-install.sh /mnt/home
+chmod +x /mnt/home/arch-configure.sh /mnt/home/post-install.sh
 arch-chroot /mnt /home/arch-configure.sh
+arch-chroot /mnt /home/post-install.sh
 
 echo "Installation complete! Exiting and rebooting..."
 sleep 5
