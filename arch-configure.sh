@@ -24,8 +24,11 @@ passwd
 echo "Setting sudo permissions for 'wheel' group"
 sed -i "0,/# %wheel/{s/# %wheel/%wheel/}" /etc/sudoers
 
-echo "Install command line tools"
-pacman -S --noconfirm zsh vim wget
+echo "Installing packages"
+pacman -S --noconfirm grub vim zsh wget tmux \
+    xorg-sever xorg-xinit xorg-xset xorg-xrdb xorg-xinput \
+    dkms virtualbox-guest-utils virtualbox-guest-dkms \
+    fluxbox rxvt-unicode xsel midori
 
 echo "Enter user name, followed by [ENTER]:"
 read username
@@ -35,15 +38,10 @@ echo "Set user password"
 passwd $username
 
 echo "Setting up GUI"
-pacman -S --noconfirm xorg-server xorg-xinit \
-    xorg-xset xorg-xrdb xorg-xinput i3 dmenu \
-    virtualbox-guest-utils rxvt-unicode
-echo -e "vboxguest\nvboxsf\nvboxvideo" > /etc/modules-load.d/virtualbox.conf
-mv /home/xinitrc /home/$username/.xinitrc
-xset r rate 130 50  # Keyboard repeat rate
+vboxversion=`pacman -Ql virtualbox-guest-dkms | grep -Pom 1 '(?<=vboxguest-).*?(?=/)'`
+dkms install vboxguest/$vboxversion
 
 echo "Installing bootloader (grub)"
-pacman -S --noconfirm grub
 grub-install --target=i386-pc --recheck --debug /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 

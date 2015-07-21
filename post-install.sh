@@ -7,36 +7,38 @@ username=$(1:-"ashiklom")
 sudo -u $username pacman -S --noconfirm git openssh \
     ruby r gcc-fortran tmux \
     python python2 python-pip \
-    ttf-ubuntu-font-familya ttf-inconsolata
+    ttf-ubuntu-font-family ttf-inconsolata
 
 echo "Installing yaourt for AUR packages"
-mkdir /home/$username/builds & cd /home/$username/builds
+mkdir ~/builds & cd ~/builds
 aur='https://aur.archlinux.org/packages'
 wget "$aur/pa/package-query/package-query.tar.gz"
 tar xvf package-query.tar.gz
-cd package-query
+cd ~/builds/package-query
 makepkg -s --asroot
 packagename=`find . -name *.pkg.tar.xz`
 sudo -u $username pacman -U $packagename
-cd ..
+cd ~/builds
 wget $aur/ya/yaourt/yaourt.tar.gz
 tar xvf yaourt.tar.gz
-cd yaourt
+cd ~/builds/yaourt
 makepkg -s --asroot
 packagename=`find . -name *.pkg.tar.xz`
 sudo -u $username pacman -U $packagename
-cd /home/$username
+cd ~
 
 echo "Installing AUR packages"
 yaourt -S neovim-git --noconfirm
 
 echo "Downloading and setting up user files"
-git clone https://github.com/ashiklom/my_vim ~/.vim
+git clone git@github.com:ashiklom/my_vim ~/.vim
 ln -s ~/.vim ~/.nvim
 ln -s ~/.vim/vimrc ~/.vimrc
 ln -s ~/.vimrc ~/.nvimrc
 vim +PlugInstall +qall now
-git clone https://github.com/ashiklom/dotfiles
+git clone git@github.com:ashiklom/dotfiles
 ln -s ~/dotfiles/fluxbox ~/.fluxbox
 ln -s ~/dotfiles/Xresources/main ~/.Xresources
-xrdb -I$HOME ~/.Xresources
+ln -s ~/dotfiles/xinitrc ~/.xinitrc
+ln -s ~/dotfiles/fluxbox ~/.fluxbox
+~/dotfiles/setup.prezto.sh
