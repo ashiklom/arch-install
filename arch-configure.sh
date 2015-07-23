@@ -26,8 +26,8 @@ sed -i "0,/# %wheel/{s/# %wheel/%wheel/}" /etc/sudoers
 
 echo "Installing packages"
 pacman -S --noconfirm grub vim zsh wget tmux \
-    xorg-sever xorg-xinit xorg-xset xorg-xrdb xorg-xinput \
-    dkms virtualbox-guest-utils virtualbox-guest-dkms \
+    xorg-server xorg-xinit xorg-xset xorg-xrdb xorg-xinput \
+    dkms linux-headers virtualbox-guest-utils virtualbox-guest-dkms \
     fluxbox rxvt-unicode xsel midori
 
 echo "Enter user name, followed by [ENTER]:"
@@ -39,6 +39,7 @@ passwd $username
 
 echo "Setting up GUI"
 vboxversion=`pacman -Ql virtualbox-guest-dkms | grep -Pom 1 '(?<=vboxguest-).*?(?=/)'`
+systemctl enable dkms.service
 dkms install vboxguest/$vboxversion
 
 echo "Installing bootloader (grub)"
