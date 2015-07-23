@@ -25,7 +25,7 @@ echo "Setting sudo permissions for 'wheel' group"
 sed -i "0,/# %wheel/{s/# %wheel/%wheel/}" /etc/sudoers
 
 echo "Installing packages"
-pacman -S --noconfirm grub vim zsh wget tmux \
+pacman -S --noconfirm grub vim zsh wget \
     xorg-server xorg-xinit xorg-xset xorg-xrdb xorg-xinput \
     dkms linux-headers virtualbox-guest-utils virtualbox-guest-dkms \
     fluxbox rxvt-unicode xsel midori
