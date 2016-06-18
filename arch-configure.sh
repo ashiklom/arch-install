@@ -10,31 +10,52 @@ ln -s /usr/share/zoneinfo/US/Eastern /etc/localtime
 echo "Setting system clock..."
 hwclock --systohc --utc
 
-echo "Enter the computer name, followed by [ENTER]:"
-read computername
+#echo "Enter the computer name, followed by [ENTER]:"
+#read computername
+computername="arch_vm"
 echo $computername > /etc/hostname
 sed -i "s/localhost/localhost $computername/g" /etc/hosts
 
 echo "Set the root password"
 passwd
 
-echo "Installing command line tools"
-pacman -S zsh git vim
+# Lenovo t450s drivers
+pacman -S xf86-video-intel mesa lib32-mesa-libgl intel-ucode
 
-echo "Enter user name, followed by [ENTER]:"
-read username
+# Install command-line tools
+pacman -S git vim
+
+# Install wireless devices
+pacman -S iw wpa_supplicant dialog
+
+#echo "Enter user name, followed by [ENTER]:"
+#read username
+username="ashiklom"
 useradd -m -g users -G wheel,storage,power -s /bin/zsh $username
+
+EDITOR=vim visudo
 
 echo "Set user password"
 passwd $username
 
-echo "Installing other packages"
-pacman -S slim fluxbox
-systemctl enable slim.service
+ #Install graphics packages and desktop environment
+pacman -S xorg-server xorg-utils xorg-xinit xterm
+
+# Desktop environment
+pacman -S gnome gnome-extra lightdm-gtk-greeter
+systemctl enable lightdm.service
 
 echo "Installing bootloader (rEFInd)"
 pacman -S refind-efi
 refind-install
+
+echo "Configuring network"
+# Set hostname
+echo "ashiklom-arch_vm" > /etc/hostname
+ethernet_dev=`ip link | grep -P -o "(?<= )en.*(?=:)"`
+wireless_dev=`ip link | grep -P -o "(?<= )wl.*(?=:)"`
+systemctl enable dhpcd@${ethernet_dev}.service
+systemctl start dhpcd@${ethernet_dev}.service
 
 echo "Generating boot file"
 sed -i "/^HOOKS=/ s/block filesystems/block lvm2 filesystems/g" /etc/mkinitcpio.conf
