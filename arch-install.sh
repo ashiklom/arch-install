@@ -15,8 +15,8 @@ echo "Generating fstab file"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 echo "Running arch configuration script..."
-cp arch-configure.sh /mnt/home/arch-configure.sh
-chmod +x /mnt/home/arch-configure.sh
+cp arch-configure.sh edit.sudoers.sh /mnt/home/
+chmod +x /mnt/home/*.sh
 arch-chroot /mnt /home/arch-configure.sh
 
 echo "Installation complete! Exiting and rebooting..."

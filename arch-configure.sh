@@ -26,7 +26,7 @@ pacman -S --noconfirm \
     xf86-video-vesa \
     git vim \
     iw wpa_supplicant dialog \
-    xorg-server xorg-utils xorg-xnit xterm \
+    xorg-server xorg-utils xorg-xinit xterm \
     lightdm-gtk-greeter \
     fluxbox \
     refind-efi \
