@@ -21,12 +21,16 @@ passwd
 
 # Install packages
 pacman -S --noconfirm \
-    xf86-video-intel mesa lib32-mesa-libgl intel-ucode \
+    xf86-video-vesa \
+    #xf86-video-intel mesa lib32-mesa-libgl intel-ucode \
     git vim \
     iw wpa_supplicant dialog \
     xorg-server xorg-utils xorg-xnit xterm \
-    gnome gnome-extra lightdm-gtk-greeter \
-    refind-efi
+    #gnome gnome-extra \
+    lightdm-gtk-greeter \
+    fluxbox \
+    refind-efi \
+    tlp
 
 #echo "Enter user name, followed by [ENTER]:"
 #read username
