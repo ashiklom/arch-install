@@ -20,13 +20,13 @@ echo "Set the root password"
 passwd
 
 # Install packages
+    #xf86-video-intel mesa lib32-mesa-libgl intel-ucode \
+    #gnome gnome-extra \
 pacman -S --noconfirm \
     xf86-video-vesa \
-    #xf86-video-intel mesa lib32-mesa-libgl intel-ucode \
     git vim \
     iw wpa_supplicant dialog \
     xorg-server xorg-utils xorg-xnit xterm \
-    #gnome gnome-extra \
     lightdm-gtk-greeter \
     fluxbox \
     refind-efi \
