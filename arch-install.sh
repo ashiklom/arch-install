@@ -7,7 +7,7 @@ chmod +x armrr
 ./armrr US
 
 echo "Installing Arch"
-pacstrap -i /mnt base base-devel
+pacstrap /mnt base base-devel
 
 sleep 5
 

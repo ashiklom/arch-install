@@ -18,7 +18,7 @@ parted -s $disk \
 
 # Make file systems on relevant partitions
 mkfs.vfat -F32 /dev/sda2
-mkfs.ext4 /dev/sda6
+mkfs.ext4 /dev/sda5
 
 # List partitions on /dev/sda
 fdisk /dev/sda -l

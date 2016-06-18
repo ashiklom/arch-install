@@ -19,34 +19,30 @@ sed -i "s/localhost/localhost $computername/g" /etc/hosts
 echo "Set the root password"
 passwd
 
-# Lenovo t450s drivers
-pacman -S xf86-video-intel mesa lib32-mesa-libgl intel-ucode
-
-# Install command-line tools
-pacman -S git vim
-
-# Install wireless devices
-pacman -S iw wpa_supplicant dialog
+# Install packages
+pacman -S --noconfirm \
+    xf86-video-intel mesa lib32-mesa-libgl intel-ucode \
+    git vim \
+    iw wpa_supplicant dialog \
+    xorg-server xorg-utils xorg-xnit xterm \
+    gnome gnome-extra lightdm-gtk-greeter \
+    refind-efi
 
 #echo "Enter user name, followed by [ENTER]:"
 #read username
 username="ashiklom"
 useradd -m -g users -G wheel,storage,power -s /bin/zsh $username
 
-EDITOR=vim visudo
+# Allow 'whell' group to use sudo
+./edit.sudoers.sh
 
 echo "Set user password"
 passwd $username
 
- #Install graphics packages and desktop environment
-pacman -S xorg-server xorg-utils xorg-xinit xterm
-
-# Desktop environment
-pacman -S gnome gnome-extra lightdm-gtk-greeter
+# Enable desktop greeter
 systemctl enable lightdm.service
 
-echo "Installing bootloader (rEFInd)"
-pacman -S refind-efi
+# Instlal refind boot manager
 refind-install
 
 echo "Configuring network"
@@ -58,7 +54,7 @@ systemctl enable dhpcd@${ethernet_dev}.service
 systemctl start dhpcd@${ethernet_dev}.service
 
 echo "Generating boot file"
-sed -i "/^HOOKS=/ s/block filesystems/block lvm2 filesystems/g" /etc/mkinitcpio.conf
+#sed -i "/^HOOKS=/ s/block filesystems/block lvm2 filesystems/g" /etc/mkinitcpio.conf
 mkinitcpio -p linux
 
 echo "Configuration complete! Exiting..."
